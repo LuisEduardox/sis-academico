@@ -37,22 +37,16 @@ sisacademico/
 │   │   ├── java/
 │   │   │   └── br/edu/ifpb/poo/tsi/
 │   │   │       ├── app/
-│   │   │       │   └── SisApp.java
+│   │   │       │   └── SistemaApp.java
 │   │   │       ├── controller/
-│   │   │       │   └── SisController.java
+│   │   │       │   └── SistemaController.java
 │   │   │       ├── model/
 │   │   │       │   ├── Aluno.java
-│   │   │       │   ├── Disciplina.java
-│   │   │       │   ├── Estagio.java
-│   │   │       │   ├── Modalidade.java
 │   │   │       │   └── Professor.java
 │   │   │       ├── persistence/
-│   │   │       └   └── SisRepositorio.java
+│   │   │       └   └── 
 │   │   │       ├── ui/
-│   │   │       │   ├── Console.java
-│   │   │       │   ├── Cores.java
-│   │   │       │   ├── Menu.java
-│   │   │       └   └── SisUI.java
+│   │   │       └   └── SistemaUI.java
 │   │   └── resources/
 │   └── test/
 │       └── java/
