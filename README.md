@@ -1,0 +1,84 @@
+# SisAcademico - Sistema de Gerenciamento Acadêmico
+
+## 📋 Descrição
+
+Sistema de gerenciamento acadêmico desenvolvido em Java para controle de alunos, professores, disciplinas de uma instituição de ensino.
+
+## 🎯 Funcionalidades
+
+### Gerenciamento de Alunos
+- Cadastro de alunos
+- Matrícula em disciplinas
+- Controle de notas e frequência
+- Histórico acadêmico
+
+### Gerenciamento de Professores
+- Cadastro de professores
+- Associação de professores às disciplinas
+- Controle de disciplinas lecionadas
+
+### Gerenciamento de Disciplinas
+- Cadastro de disciplinas
+- Definição de carga horária
+- Controle de pré-requisitos
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Java 17**: Linguagem de programação
+- **Maven**: Gerenciamento de dependências e build
+- **POO**: Paradigma de Programação Orientada a Objetos
+
+## 📁 Estrutura do Projeto
+
+```
+sisacademico/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── br/edu/ifpb/poo/tsi/
+│   │   │       ├── app/
+│   │   │       │   └── SisApp.java
+│   │   │       ├── controller/
+│   │   │       │   └── SisController.java
+│   │   │       ├── model/
+│   │   │       │   ├── Aluno.java
+│   │   │       │   ├── Disciplina.java
+│   │   │       │   ├── Estagio.java
+│   │   │       │   ├── Modalidade.java
+│   │   │       │   └── Professor.java
+│   │   │       ├── persistence/
+│   │   │       └   └── SisRepositorio.java
+│   │   │       ├── ui/
+│   │   │       │   ├── Console.java
+│   │   │       │   ├── Cores.java
+│   │   │       │   ├── Menu.java
+│   │   │       └   └── SisUI.java
+│   │   └── resources/
+│   └── test/
+│       └── java/
+├── pom.xml
+└── README.md
+```
+
+## 👥 Autores
+
+- Desenvolvido como projeto acadêmico do IFPB - Campus TSI
+
+## 📝 Licença
+
+Este projeto é um trabalho acadêmico desenvolvido para fins educacionais.
+
+## 📚 Conceitos Aplicados
+
+- Classes e Objetos
+- Encapsulamento
+- Abstração
+- Herança
+- Polimorfismo
+- Coleções Java
+- Tratamento de exceções
+- Boas práticas de programação
+
+## 🔄 Status do Projeto
+
+🚧 Em desenvolvimento
