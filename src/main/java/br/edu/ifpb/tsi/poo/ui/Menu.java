@@ -1,7 +1,6 @@
 
 package br.edu.ifpb.tsi.poo.ui;
 import java.util.List;
-import java.util.Scanner;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
