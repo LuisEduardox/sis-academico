@@ -11,3 +11,7 @@ public interface Repositorio<T> {
     boolean excluir(String id);
     long conteTodos();
 }
+
+
+
+

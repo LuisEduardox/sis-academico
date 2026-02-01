@@ -25,6 +25,10 @@ public class Console {
         return in.nextLine();
     }
 
+    public int nextInt() {
+        return in.nextInt();
+    }
+
     public void printBorder(int nLinhas, int largura) {
         final String TL = "╔";
         final String TR = "╗";

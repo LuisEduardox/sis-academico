@@ -21,5 +21,8 @@ public class Aluno {
         this.disciplinas = new ArrayList<>();
         this.estagios = new ArrayList<>();
     }
+
 }
+
+
 

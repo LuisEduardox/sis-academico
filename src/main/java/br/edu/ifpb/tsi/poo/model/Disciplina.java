@@ -26,4 +26,12 @@ public class Disciplina extends ComponenteAcademico{
     public float calcularMedia(){
         return 0;
     }
+
+    public void addAluno(Aluno aluno){
+        
+    }
+
+    public void addProfessor(Professor professor){
+
+    }
 }

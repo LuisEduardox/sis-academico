@@ -21,5 +21,4 @@ public class Professor{
         this.disciplinas = new ArrayList<>();
         this.estagios = new ArrayList<>();
     }
-
 }

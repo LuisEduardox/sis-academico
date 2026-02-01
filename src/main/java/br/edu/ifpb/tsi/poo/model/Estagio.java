@@ -16,7 +16,7 @@ public class Estagio extends ComponenteAcademico{
     private List<Aluno> alunos;
     private List<Professor> professores;
 
-    public Estagio(String nome, int cargaHoraria, int avaliacao){
+    public Estagio(String nome, int cargaHoraria){
         super(nome, cargaHoraria);
         this.alunos = new ArrayList<>();
         this.professores = new ArrayList<>();
