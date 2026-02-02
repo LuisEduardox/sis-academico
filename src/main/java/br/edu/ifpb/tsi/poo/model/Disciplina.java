@@ -28,10 +28,10 @@ public class Disciplina extends ComponenteAcademico{
     }
 
     public void addAluno(Aluno aluno){
-        
+        alunos.add(aluno);
     }
 
     public void addProfessor(Professor professor){
-
+        professores.add(professor);
     }
 }

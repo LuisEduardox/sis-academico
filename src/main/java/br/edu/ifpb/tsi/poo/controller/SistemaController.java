@@ -44,6 +44,7 @@ public class SistemaController {
             case 2 -> executeCadastraProfessor();
             case 3 -> executeCadastraDisciplina();
             case 4 -> executeCadastraEstagio();
+            case 5 -> executeMatriculaAluno();
         }
     }
 
@@ -78,4 +79,20 @@ public class SistemaController {
         sistemaUI.imprimaMensagemSucesso("Estagio cadastrado com sucesso!");
         sistemaUI.pause();
     }
+
+    private void executeMatriculaAluno(){
+        disciplinaCorrente = sistemaUI.exibaMenuSelecaoDisciplina(disciplinaRepo.buscarTodos());
+        disciplinaCorrente.addAluno(alunoCorrente);
+        sistemaUI.limpaTela();
+    }   
+    
+    private void executeMudarAlunoCorrente() {
+        sistemaUI.imprimaMensagemSucesso(
+            String.format("→ Aluno corrente: %s\n\n", alunoCorrente));
+        sistemaUI.limpaTela();
+        sistemaUI.imprimaMensagemSucesso(
+            String.format("→ Novo aluno corrente: %s\n", alunoCorrente));
+        sistemaUI.pause();
+    }
+
 }

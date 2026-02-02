@@ -21,4 +21,9 @@ public class Professor{
         this.disciplinas = new ArrayList<>();
         this.estagios = new ArrayList<>();
     }
+
+    public void add(Professor professor) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'add'");
+    }
 }

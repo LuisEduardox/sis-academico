@@ -5,6 +5,7 @@ import br.edu.ifpb.tsi.poo.model.Aluno;
 import br.edu.ifpb.tsi.poo.model.Disciplina;
 import br.edu.ifpb.tsi.poo.model.Estagio;
 import br.edu.ifpb.tsi.poo.model.Professor;
+import java.util.ArrayList;
 
 public class SistemaUI {
     private Console console;
@@ -29,7 +30,8 @@ public class SistemaUI {
         "Cadastrar professor", // V
         "Cadastrar disciplina",// V
         "Cadastrar estágio", // V
-        "Matricula aluno em disciplina", 
+        "Matricula aluno em disciplina",
+        "Matricula professor em disciplina",
         "Matricula aluno em estágio",
         "Registra nota em disciplina para aluno",
         "Registra avaliação em estágio para aluno",
@@ -89,6 +91,18 @@ public class SistemaUI {
         
         Estagio estagio = new Estagio(nome, cargaHoraria);
         return estagio;
+    }
+
+    
+    public Disciplina exibaMenuSelecaoDisciplina(List<Disciplina> disciplinas) {
+        this.exibaCursor();
+        List<String> itensMenu = new ArrayList<>();
+        for (Disciplina d : disciplinas) {
+            itensMenu.add(d.toString());
+        }
+        Menu menuDisciplinas = new Menu("Disciplina", itensMenu, "Opção: ", this.console);
+        int opcao = menuDisciplinas.exiba().leiaOpcao();
+        return disciplinas.get(opcao - 1);
     }
 
 
