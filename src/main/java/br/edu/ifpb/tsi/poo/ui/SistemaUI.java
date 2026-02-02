@@ -30,17 +30,17 @@ public class SistemaUI {
         "Cadastrar professor", // V
         "Cadastrar disciplina",// V
         "Cadastrar estágio", // V
-        "Matricula aluno em disciplina",
-        "Matricula professor em disciplina",
-        "Matricula aluno em estágio",
-        "Registra nota em disciplina para aluno",
-        "Registra avaliação em estágio para aluno",
+        "Matricular aluno em disciplina", //V
+        "Matricular professor em disciplina", //V
+        "Matricular aluno em estágio",// V
+        "Registrar nota em disciplina para aluno",
+        "Registrar avaliação em estágio para aluno",
         "Calcular resultado de aluno em componentes acadêmicos",
-        "Consulta situação de aluno",
-        "Consulta listagem de disciplina e estágio",
-        "Consulta detalhes de avaliação para aluno/disciplina",
-        "Consulta sobre todos os alunos matriculados" ,
-        "Sair"  
+        "Consultar situação de aluno",
+        "Consultar listagem de disciplina e estágio", //V
+        "Consultar detalhes de avaliação para aluno/disciplina",
+        "Consultar sobre todos os alunos matriculados" ,
+        "Sair"   //V
         );
         this.menuPrincipal = new Menu("Menu", itensMenu, "Digite a opção: ", this.console);
     }
@@ -93,6 +93,17 @@ public class SistemaUI {
         return estagio;
     }
 
+    public Aluno exibaMenuSelecaoAluno(List<Aluno> alunos){
+        this.exibaCursor();
+        List<String> itensMenu = new ArrayList<>();
+        for (Aluno a : alunos){
+            itensMenu.add(a.toString());
+        }
+        Menu menuAlunos = new Menu("Alunos", itensMenu, "Selecionar alunos: ", this.console);
+        int opcao =  menuAlunos.exiba().leiaOpcao();
+        return alunos.get(opcao - 1);
+    }
+
     
     public Disciplina exibaMenuSelecaoDisciplina(List<Disciplina> disciplinas) {
         this.exibaCursor();
@@ -104,6 +115,37 @@ public class SistemaUI {
         int opcao = menuDisciplinas.exiba().leiaOpcao();
         return disciplinas.get(opcao - 1);
     }
+
+     public Estagio exibaMenuSelecaoEstagio(List<Estagio> estagio) {
+        this.exibaCursor();
+        List<String> itensMenu = new ArrayList<>();
+        for (Estagio e : estagio) {
+            itensMenu.add(e.toString());
+        }
+        Menu menuEstagios = new Menu("Estagio", itensMenu, "Selecionar estagio: ", this.console);
+        int opcao = menuEstagios.exiba().leiaOpcao();
+        return estagio.get(opcao - 1);
+    }
+
+     public void exibaDisciplinas(List<Disciplina> disciplinas) {
+        this.exibaCursor();
+        List<String> itensMenu = new ArrayList<>();
+        for (Disciplina d : disciplinas) {
+            itensMenu.add(d.toString());
+        }
+        Menu menuDisciplinas = new Menu("Disciplina", itensMenu, "", this.console); 
+        menuDisciplinas.exiba();
+        }
+
+        public void exibaEstagios(List<Estagio> estagios) {
+        this.exibaCursor();
+        List<String> itensMenu = new ArrayList<>();
+        for (Estagio e : estagios) {
+            itensMenu.add(e.toString());
+        }
+        Menu menuEstagios = new Menu("Estagios", itensMenu, "", this.console); 
+        menuEstagios.exiba();
+        }
 
 
     public void limpaTela(){

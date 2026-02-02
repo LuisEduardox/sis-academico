@@ -26,4 +26,12 @@ public class Estagio extends ComponenteAcademico{
     public float calcularMedia() {
         return 0;
     }
+
+    public void addAluno(Aluno aluno){
+        alunos.add(aluno);
+    }
+
+    public String toString(){
+        return this.getNome() + " " + this.getCargaHoraria() + "horas";
+    }
 }

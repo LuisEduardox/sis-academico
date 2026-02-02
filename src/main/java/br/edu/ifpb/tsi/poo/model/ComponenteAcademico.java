@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public abstract class ComponenteAcademico{
-    protected static final float APROVADO = 70;
+    protected static final float MEDIA_MINIMA_APROVACAO = 70;
     private String nome;
     private int cargaHoraria;
 

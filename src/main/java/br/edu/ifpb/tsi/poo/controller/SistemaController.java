@@ -11,7 +11,7 @@ import br.edu.ifpb.tsi.poo.persistence.EstagioRepositorio;
 import br.edu.ifpb.tsi.poo.persistence.DisciplinaRepositorio;
 
 public class SistemaController {
-    private static final int SAIR = 14;
+    private static final int SAIR = 15;
     
     private SistemaUI sistemaUI;
     private Aluno alunoCorrente;
@@ -44,7 +44,9 @@ public class SistemaController {
             case 2 -> executeCadastraProfessor();
             case 3 -> executeCadastraDisciplina();
             case 4 -> executeCadastraEstagio();
-            case 5 -> executeMatriculaAluno();
+            case 5 -> executeMatriculaAlunoDisciplina();
+            case 6 -> executeMatriculaProfessorDisciplina();
+            case 12 -> executeExibiComponentesAcademicos();
         }
     }
 
@@ -80,14 +82,37 @@ public class SistemaController {
         sistemaUI.pause();
     }
 
-    private void executeMatriculaAluno(){
+    private void executeMatriculaAlunoDisciplina(){
+        executeMudarAlunoCorrente();
         disciplinaCorrente = sistemaUI.exibaMenuSelecaoDisciplina(disciplinaRepo.buscarTodos());
         disciplinaCorrente.addAluno(alunoCorrente);
         sistemaUI.limpaTela();
     }   
+
+    private void executeMatriculaProfessorDisciplina(){
+        disciplinaCorrente = sistemaUI.exibaMenuSelecaoDisciplina(disciplinaRepo.buscarTodos());
+        disciplinaCorrente.addProfessor(professorCorrente);
+        sistemaUI.limpaTela();
+    }   
+
+    
+    private void executeMatriculaAlunoEstagio(){
+        executeMudarAlunoCorrente();
+        estagioCorrente = sistemaUI.exibaMenuSelecaoEstagio(estagioRepo.buscarTodos());
+        estagioCorrente.addAluno(alunoCorrente);
+        sistemaUI.limpaTela();
+    }   
+
+    // 12
+    private void executeExibiComponentesAcademicos(){
+        sistemaUI.exibaDisciplinas(disciplinaRepo.buscarTodos());
+        sistemaUI.exibaEstagios(estagioRepo.buscarTodos());
+        sistemaUI.pause();
+    }
     
     private void executeMudarAlunoCorrente() {
-        
+        alunoCorrente = sistemaUI.exibaMenuSelecaoAluno(alunoRepo.buscarTodos());
+        sistemaUI.limpaTela();
     }
 
 }
