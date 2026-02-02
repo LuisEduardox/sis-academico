@@ -34,6 +34,7 @@ public class SistemaController {
             sistemaUI.exibaMenu();
             opcaoMenu = sistemaUI.leiaOpcaoMenuPrincipal();
             sistemaUI.limpaTela();
+            executeOperacao(opcaoMenu);
         } while(opcaoMenu != SAIR);
     }
 

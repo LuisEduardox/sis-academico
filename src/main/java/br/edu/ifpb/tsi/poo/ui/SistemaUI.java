@@ -7,7 +7,7 @@ import br.edu.ifpb.tsi.poo.model.Estagio;
 import br.edu.ifpb.tsi.poo.model.Professor;
 
 public class SistemaUI {
-    private static Console console;
+    private Console console;
     private Menu menuPrincipal;
     
     public SistemaUI(){
@@ -35,9 +35,10 @@ public class SistemaUI {
         "Registra avaliação em estágio para aluno",
         "Calcular resultado de aluno em componentes acadêmicos",
         "Consulta situação de aluno",
-        "Solicita listagem de disciplina e estágio",
-        "Solicita consulta detalhes de avaliação para aluno/disciplina",
-        "Solicita consulta sobre todos os alunos matriculados"   
+        "Consulta listagem de disciplina e estágio",
+        "Consulta detalhes de avaliação para aluno/disciplina",
+        "Consulta sobre todos os alunos matriculados" ,
+        "Sair"  
         );
         this.menuPrincipal = new Menu("Menu", itensMenu, "Digite a opção: ", this.console);
     }
@@ -66,7 +67,7 @@ public class SistemaUI {
         return professor;
     }
     
-    public static Disciplina cadastraDisciplina(){
+    public Disciplina cadastraDisciplina(){
         console.println("\n[ Cadastrar Disciplina ]");
         console.print("Nome: ");
         String nome = console.nextLine();
