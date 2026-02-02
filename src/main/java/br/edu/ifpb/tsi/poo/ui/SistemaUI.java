@@ -100,7 +100,7 @@ public class SistemaUI {
         for (Disciplina d : disciplinas) {
             itensMenu.add(d.toString());
         }
-        Menu menuDisciplinas = new Menu("Disciplina", itensMenu, "Opção: ", this.console);
+        Menu menuDisciplinas = new Menu("Disciplina", itensMenu, "Selecionar disciplina: ", this.console);
         int opcao = menuDisciplinas.exiba().leiaOpcao();
         return disciplinas.get(opcao - 1);
     }

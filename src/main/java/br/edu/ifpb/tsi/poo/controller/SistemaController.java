@@ -87,12 +87,7 @@ public class SistemaController {
     }   
     
     private void executeMudarAlunoCorrente() {
-        sistemaUI.imprimaMensagemSucesso(
-            String.format("→ Aluno corrente: %s\n\n", alunoCorrente));
-        sistemaUI.limpaTela();
-        sistemaUI.imprimaMensagemSucesso(
-            String.format("→ Novo aluno corrente: %s\n", alunoCorrente));
-        sistemaUI.pause();
+        
     }
 
 }

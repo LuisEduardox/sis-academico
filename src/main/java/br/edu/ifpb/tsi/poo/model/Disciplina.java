@@ -34,4 +34,8 @@ public class Disciplina extends ComponenteAcademico{
     public void addProfessor(Professor professor){
         professores.add(professor);
     }
+
+    public String toString(){
+        return this.getNome() + " " + this.getCargaHoraria() + "horas";
+    }
 }
