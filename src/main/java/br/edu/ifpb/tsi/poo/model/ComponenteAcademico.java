@@ -15,7 +15,7 @@ public abstract class ComponenteAcademico{
     private String nome;
     private int cargaHoraria;
 
-    public abstract float calcularMedia();
+    public abstract Integer calcularMedia(Aluno aluno);
 
 }
 

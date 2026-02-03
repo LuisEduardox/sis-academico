@@ -27,26 +27,8 @@ public class Disciplina extends ComponenteAcademico{
     }
 
     @Override
-    public float calcularMedia(){
-
-        if (this.notas.size() < 2) {
-            return 0;
-        }
-
-        else{
-            int somaNotas = 0;
-            int totalNotas = 0;
-            
-            for (List<Integer> notasAluno : this.notas.values()) {
-                for (int nota : notasAluno) {
-                    somaNotas += nota;
-                    totalNotas++;
-                }
-            }
-
-            float media = (float) somaNotas / totalNotas;
-            return media;
-        }
+    public Integer calcularMedia(Aluno aluno){
+        return 0;
     }
 
     public void addAluno(Aluno aluno){
@@ -69,10 +51,10 @@ public class Disciplina extends ComponenteAcademico{
     }
 
     public List<Integer> buscaNota(Aluno aluno){
-        return notas.getOrDefault(aluno, new ArrayList<>());
+        return notas.get(aluno);
     }
     
     public String toString(){
-        return this.getNome() + " " + this.getCargaHoraria() + "horas";
+        return this.getNome() + " " + this.getCargaHoraria() + " horas";
     }
 }

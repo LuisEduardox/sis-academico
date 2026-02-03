@@ -2,7 +2,6 @@ package br.edu.ifpb.tsi.poo.controller;
 
 import br.edu.ifpb.tsi.poo.ui.SistemaUI;
 
-import java.lang.reflect.Array;
 
 import br.edu.ifpb.tsi.poo.model.Aluno;
 import br.edu.ifpb.tsi.poo.model.Disciplina;
@@ -51,6 +50,7 @@ public class SistemaController {
             case 6 -> executeMatriculaAlunoEstagio();
             case 7 -> executeCadastraNotaDisciplina();
             case 8 -> executeCadastraNotaEstagio();
+            case 9 -> executeCalculaMediaComponentesAcademicos();
             case 11 -> executeExibiComponentesAcademicos();
         }
     }
@@ -94,6 +94,7 @@ public class SistemaController {
         alunoCorrente.addDisciplina(disciplinaCorrente);
         sistemaUI.imprimaMensagemSucesso("Aluno(a) cadastrado com sucesso!");
         sistemaUI.limpaTela();
+        sistemaUI.pause();
     }   
     
     private void executeMatriculaAlunoEstagio(){
@@ -103,6 +104,7 @@ public class SistemaController {
         alunoCorrente.addEstagio(estagioCorrente);
         sistemaUI.imprimaMensagemSucesso("Aluno(a) cadastrado com sucesso!");
         sistemaUI.limpaTela();
+        sistemaUI.pause();
     }   
 
 
@@ -114,6 +116,7 @@ public class SistemaController {
         disciplinaCorrente.addNota(alunoCorrente, nota);
         sistemaUI.imprimaMensagemSucesso("Nota cadastrado com sucesso!");
         sistemaUI.limpaTela();
+        sistemaUI.pause();
     }
 
     private void executeCadastraNotaEstagio(){
@@ -121,22 +124,22 @@ public class SistemaController {
         alunoCorrente = alunoRepo.buscar(matricula);
         estagioCorrente = sistemaUI.exibaMenuSelecaoEstagio(alunoCorrente.getEstagios());
         int nota = sistemaUI.leiaNota();
-        estagioCorrente.addNota(alunoCorrente, nota);
+        estagioCorrente.addMedia(alunoCorrente, nota);
         sistemaUI.imprimaMensagemSucesso("Nota cadastrado com sucesso!");
         sistemaUI.limpaTela();
+        sistemaUI.pause();
     }
-    // 11
+
+    private void executeCalculaMediaComponentesAcademicos(){
+        String matricula = sistemaUI.leiaMatriculaAluno();
+        alunoCorrente = alunoRepo.buscar(matricula);
+    }
+
     private void executeExibiComponentesAcademicos(){
         sistemaUI.exibaDisciplinas(disciplinaRepo.buscarTodos());
         sistemaUI.exibaEstagios(estagioRepo.buscarTodos());
         sistemaUI.pause();
     }
-
-    // private void executeMatriculaProfessorDisciplina(){
-    //     disciplinaCorrente = sistemaUI.exibaMenuSelecaoDisciplina(disciplinaRepo.buscarTodos());
-    //     disciplinaCorrente.addProfessor(professorCorrente);
-    //     sistemaUI.limpaTela();
-    // }   
 
     private void executeMudarAlunoCorrente() {
         alunoCorrente = sistemaUI.exibaMenuSelecaoAluno(alunoRepo.buscarTodos());
