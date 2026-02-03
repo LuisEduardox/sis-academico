@@ -32,7 +32,7 @@ public class SistemaUI {
         "Cadastrar estágio", // V
         "Matricular aluno em disciplina", //V
         "Matricular aluno em estágio",// V
-        "Registrar nota em disciplina para aluno",
+        "Registrar nota em disciplina para aluno", //V
         "Registrar avaliação em estágio para aluno",
         "Calcular resultado de aluno em componentes acadêmicos",
         "Consultar situação de aluno",
@@ -156,6 +156,29 @@ public class SistemaUI {
         }
         Menu menuEstagios = new Menu("Estagios", itensMenu, "", this.console); 
         menuEstagios.exiba();
+        }
+
+        public String exibirSituacaoAluno(double media){
+            this.exibaCursor();
+            String situacao = "";
+
+            if(media < 70){
+                return situacao = "REPROVADO";
+            }
+
+            return situacao = "APROVADO";
+        }
+
+        public void todosAlunosCadastrados(List<Aluno> alunos){
+            this.exibaCursor();
+            List<String> itensMenu = new ArrayList<>();
+
+            for(Aluno a : alunos){
+                itensMenu.add(a.toString());
+                itensMenu.add(exibirSituacaoAluno(0));
+            }
+        Menu menuSituacao = new Menu("Alunos", itensMenu, "", this.console); 
+        menuSituacao.exiba();
         }
 
 

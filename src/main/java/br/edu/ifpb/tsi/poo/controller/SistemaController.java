@@ -1,6 +1,9 @@
 package br.edu.ifpb.tsi.poo.controller;
 
 import br.edu.ifpb.tsi.poo.ui.SistemaUI;
+
+import java.lang.reflect.Array;
+
 import br.edu.ifpb.tsi.poo.model.Aluno;
 import br.edu.ifpb.tsi.poo.model.Disciplina;
 import br.edu.ifpb.tsi.poo.model.Estagio;
