@@ -31,6 +31,18 @@ public class Estagio extends ComponenteAcademico{
         alunos.add(aluno);
     }
 
+    public void addAlunoNota(Aluno aluno){
+
+    }
+
+    public void addNota(Aluno aluno, int nota){
+        
+    }
+
+    // public List<Integer> buscaNota(Aluno aluno){
+
+    // }
+
     public String toString(){
         return this.getNome() + " " + this.getCargaHoraria() + "horas";
     }

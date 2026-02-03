@@ -31,7 +31,6 @@ public class SistemaUI {
         "Cadastrar disciplina",// V
         "Cadastrar estágio", // V
         "Matricular aluno em disciplina", //V
-        "Matricular professor em disciplina", //V
         "Matricular aluno em estágio",// V
         "Registrar nota em disciplina para aluno",
         "Registrar avaliação em estágio para aluno",
@@ -45,6 +44,23 @@ public class SistemaUI {
         this.menuPrincipal = new Menu("Menu", itensMenu, "Digite a opção: ", this.console);
     }
 
+    public String leiaMatriculaAluno(){
+        console.print("Digite a matrícula do aluno: ");
+        String matricula = console.nextLine();
+        return matricula;
+    }
+
+    public int leiaNota(){
+        console.print("Digite a nota: ");
+        int nota = console.nextInt();
+        return nota;
+    }
+
+    public List<Integer> criacaoLista(){
+        List<Integer> n = new ArrayList<>();
+        return n;
+    }
+    
     public Aluno cadastraAluno(){
         console.println("\n[ Cadastrar Aluno ]");
         console.print("Nome: ");
@@ -108,7 +124,7 @@ public class SistemaUI {
     public Disciplina exibaMenuSelecaoDisciplina(List<Disciplina> disciplinas) {
         this.exibaCursor();
         List<String> itensMenu = new ArrayList<>();
-        for (Disciplina d : disciplinas) {
+        for (Disciplina d : disciplinas) { 
             itensMenu.add(d.toString());
         }
         Menu menuDisciplinas = new Menu("Disciplina", itensMenu, "Selecionar disciplina: ", this.console);

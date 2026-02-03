@@ -11,7 +11,7 @@ import br.edu.ifpb.tsi.poo.persistence.EstagioRepositorio;
 import br.edu.ifpb.tsi.poo.persistence.DisciplinaRepositorio;
 
 public class SistemaController {
-    private static final int SAIR = 15;
+    private static final int SAIR = 14;
     
     private SistemaUI sistemaUI;
     private Aluno alunoCorrente;
@@ -45,8 +45,9 @@ public class SistemaController {
             case 3 -> executeCadastraDisciplina();
             case 4 -> executeCadastraEstagio();
             case 5 -> executeMatriculaAlunoDisciplina();
-            case 6 -> executeMatriculaProfessorDisciplina();
-            case 12 -> executeExibiComponentesAcademicos();
+            case 6 -> executeMatriculaAlunoEstagio();
+            case 7 -> executeCadastraNotaDisciplina();
+            case 11 -> executeExibiComponentesAcademicos();
         }
     }
 
@@ -86,8 +87,47 @@ public class SistemaController {
         executeMudarAlunoCorrente();
         disciplinaCorrente = sistemaUI.exibaMenuSelecaoDisciplina(disciplinaRepo.buscarTodos());
         disciplinaCorrente.addAluno(alunoCorrente);
+        alunoCorrente.addDisciplina(disciplinaCorrente);
+        sistemaUI.imprimaMensagemSucesso("Aluno(a) cadastrado com sucesso!");
         sistemaUI.limpaTela();
     }   
+    
+    private void executeMatriculaAlunoEstagio(){
+        executeMudarAlunoCorrente();
+        estagioCorrente = sistemaUI.exibaMenuSelecaoEstagio(estagioRepo.buscarTodos());
+        estagioCorrente.addAluno(alunoCorrente);
+        alunoCorrente.addEstagio(estagioCorrente);
+        sistemaUI.imprimaMensagemSucesso("Aluno(a) cadastrado com sucesso!");
+        sistemaUI.limpaTela();
+    }   
+
+
+     private void executeCadastraNotaDisciplina(){
+        String matricula = sistemaUI.leiaMatriculaAluno();
+        alunoCorrente = alunoRepo.buscar(matricula);
+        disciplinaCorrente = sistemaUI.exibaMenuSelecaoDisciplina(alunoCorrente.getDisciplinas());
+        int nota = sistemaUI.leiaNota();
+        disciplinaCorrente.addAlunoNota(alunoCorrente, sistemaUI.criacaoLista());
+        disciplinaCorrente.addNota(alunoCorrente, nota);
+        sistemaUI.imprimaMensagemSucesso("Nota cadastrado com sucesso!");
+         sistemaUI.limpaTela();
+    }
+
+    private void executeCadastraNotaEstagio(){
+        String matricula = sistemaUI.leiaMatriculaAluno();
+        alunoCorrente = alunoRepo.buscar(matricula);
+        estagioCorrente = sistemaUI.exibaMenuSelecaoEstagio(alunoCorrente.getEstagios());
+        int nota = sistemaUI.leiaNota();
+        estagioCorrente.addNota(alunoCorrente, nota);
+        sistemaUI.imprimaMensagemSucesso("Nota cadastrado com sucesso!");
+         sistemaUI.limpaTela();
+    }
+    // 11
+    private void executeExibiComponentesAcademicos(){
+        sistemaUI.exibaDisciplinas(disciplinaRepo.buscarTodos());
+        sistemaUI.exibaEstagios(estagioRepo.buscarTodos());
+        sistemaUI.pause();
+    }
 
     private void executeMatriculaProfessorDisciplina(){
         disciplinaCorrente = sistemaUI.exibaMenuSelecaoDisciplina(disciplinaRepo.buscarTodos());
@@ -95,21 +135,6 @@ public class SistemaController {
         sistemaUI.limpaTela();
     }   
 
-    
-    private void executeMatriculaAlunoEstagio(){
-        executeMudarAlunoCorrente();
-        estagioCorrente = sistemaUI.exibaMenuSelecaoEstagio(estagioRepo.buscarTodos());
-        estagioCorrente.addAluno(alunoCorrente);
-        sistemaUI.limpaTela();
-    }   
-
-    // 12
-    private void executeExibiComponentesAcademicos(){
-        sistemaUI.exibaDisciplinas(disciplinaRepo.buscarTodos());
-        sistemaUI.exibaEstagios(estagioRepo.buscarTodos());
-        sistemaUI.pause();
-    }
-    
     private void executeMudarAlunoCorrente() {
         alunoCorrente = sistemaUI.exibaMenuSelecaoAluno(alunoRepo.buscarTodos());
         sistemaUI.limpaTela();

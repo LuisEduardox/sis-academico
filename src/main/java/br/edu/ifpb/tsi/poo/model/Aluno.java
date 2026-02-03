@@ -22,6 +22,17 @@ public class Aluno {
         this.estagios = new ArrayList<>();
     }
 
+    public void addDisciplina(Disciplina disciplina){
+        disciplinas.add(disciplina);
+    }
+
+    public void addEstagio(Estagio estagio){
+        estagios.add(estagio);
+    }
+
+    public String toString(){
+        return this.getNome() + " " + this.getMatricula();
+    }
 }
 
 
