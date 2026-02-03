@@ -55,11 +55,6 @@ public class SistemaUI {
         int nota = console.nextInt();
         return nota;
     }
-
-    public List<Integer> criacaoLista(){
-        List<Integer> n = new ArrayList<>();
-        return n;
-    }
     
     public Aluno cadastraAluno(){
         console.println("\n[ Cadastrar Aluno ]");

@@ -39,22 +39,21 @@ public class Disciplina extends ComponenteAcademico{
         professores.add(professor);
     }
 
-    public void addAlunoNota(Aluno aluno, List<Integer> n){
-        this.notas.put(aluno , n);
-    }
-
     public void addNota(Aluno aluno, int nota){
-        List <Integer> notas = new ArrayList<>();
-        notas = buscaNota(aluno);
-        notas.add(nota);
+        List<Integer> notasAluno = notas.get(aluno);
+
+        if (notasAluno == null) {
+            notasAluno = new ArrayList<>();
+            notas.put(aluno, notasAluno);
+        }
+
+        notasAluno.add(nota);
     }
 
     public List<Integer> buscaNota(Aluno aluno){
-        List <Integer> notas = new ArrayList<>();
-        notas = this.notas.get(aluno);
-        return notas;
+        return notas.getOrDefault(aluno, new ArrayList<>());
     }
-
+    
     public String toString(){
         return this.getNome() + " " + this.getCargaHoraria() + "horas";
     }

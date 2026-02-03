@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Aluno {
     private String nome;
+    @EqualsAndHashCode.Include
     private String matricula;
     private List<Disciplina> disciplinas;
     private List<Estagio> estagios;

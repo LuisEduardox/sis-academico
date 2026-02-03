@@ -47,6 +47,7 @@ public class SistemaController {
             case 5 -> executeMatriculaAlunoDisciplina();
             case 6 -> executeMatriculaAlunoEstagio();
             case 7 -> executeCadastraNotaDisciplina();
+            case 8 -> executeCadastraNotaEstagio();
             case 11 -> executeExibiComponentesAcademicos();
         }
     }
@@ -107,10 +108,9 @@ public class SistemaController {
         alunoCorrente = alunoRepo.buscar(matricula);
         disciplinaCorrente = sistemaUI.exibaMenuSelecaoDisciplina(alunoCorrente.getDisciplinas());
         int nota = sistemaUI.leiaNota();
-        disciplinaCorrente.addAlunoNota(alunoCorrente, sistemaUI.criacaoLista());
         disciplinaCorrente.addNota(alunoCorrente, nota);
         sistemaUI.imprimaMensagemSucesso("Nota cadastrado com sucesso!");
-         sistemaUI.limpaTela();
+        sistemaUI.limpaTela();
     }
 
     private void executeCadastraNotaEstagio(){
@@ -120,7 +120,7 @@ public class SistemaController {
         int nota = sistemaUI.leiaNota();
         estagioCorrente.addNota(alunoCorrente, nota);
         sistemaUI.imprimaMensagemSucesso("Nota cadastrado com sucesso!");
-         sistemaUI.limpaTela();
+        sistemaUI.limpaTela();
     }
     // 11
     private void executeExibiComponentesAcademicos(){
@@ -129,11 +129,11 @@ public class SistemaController {
         sistemaUI.pause();
     }
 
-    private void executeMatriculaProfessorDisciplina(){
-        disciplinaCorrente = sistemaUI.exibaMenuSelecaoDisciplina(disciplinaRepo.buscarTodos());
-        disciplinaCorrente.addProfessor(professorCorrente);
-        sistemaUI.limpaTela();
-    }   
+    // private void executeMatriculaProfessorDisciplina(){
+    //     disciplinaCorrente = sistemaUI.exibaMenuSelecaoDisciplina(disciplinaRepo.buscarTodos());
+    //     disciplinaCorrente.addProfessor(professorCorrente);
+    //     sistemaUI.limpaTela();
+    // }   
 
     private void executeMudarAlunoCorrente() {
         alunoCorrente = sistemaUI.exibaMenuSelecaoAluno(alunoRepo.buscarTodos());

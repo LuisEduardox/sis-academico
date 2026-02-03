@@ -26,7 +26,7 @@ public class Console {
     }
 
     public int nextInt() {
-        return in.nextInt();
+         return Integer.parseInt(in.nextLine());
     }
 
     public void printBorder(int nLinhas, int largura) {
