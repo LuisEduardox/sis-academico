@@ -14,8 +14,5 @@ public abstract class ComponenteAcademico{
     @EqualsAndHashCode.Include
     private String nome;
     private int cargaHoraria;
-
-    public abstract Integer calcularMedia(Aluno aluno);
-
 }
 

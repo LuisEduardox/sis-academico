@@ -26,7 +26,6 @@ public class Estagio extends ComponenteAcademico{
         this.media = new HashMap<>();
     }
 
-    @Override
     public Integer calcularMedia(Aluno aluno) {
         return media.get(aluno);
     }

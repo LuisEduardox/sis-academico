@@ -26,9 +26,13 @@ public class Disciplina extends ComponenteAcademico{
         this.notas = new HashMap<>();
     }
 
-    @Override
-    public Integer calcularMedia(Aluno aluno){
-        return 0;
+    public Integer calcularMedia(List<Integer> notas){
+        int soma = 0;
+        for (int n : notas){
+            soma += n;
+        }
+        int media = soma / notas.size();
+        return media;
     }
 
     public void addAluno(Aluno aluno){
