@@ -6,6 +6,7 @@ import br.edu.ifpb.tsi.poo.model.Disciplina;
 import br.edu.ifpb.tsi.poo.model.Estagio;
 import br.edu.ifpb.tsi.poo.model.Professor;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class SistemaUI {
     private Console console;
@@ -144,7 +145,7 @@ public class SistemaUI {
         for (Disciplina d : disciplinas) {
             itensMenu.add(d.toString());
         }
-        Menu menuDisciplinas = new Menu("Disciplina", itensMenu, "", this.console); 
+        Menu menuDisciplinas = new Menu("Disciplinas", itensMenu, "", this.console); 
         menuDisciplinas.exiba();
         }
 
@@ -158,28 +159,76 @@ public class SistemaUI {
         menuEstagios.exiba();
         }
 
-        public String exibirSituacaoAluno(double media){
-            this.exibaCursor();
-            String situacao = "";
+        public void exibaResultadosCalculoComponentes(Aluno aluno, List<String> calculados, List<String> pendentes){
+            if (calculados == null) calculados = Collections.emptyList();
+            if (pendentes == null) pendentes = Collections.emptyList();
 
-            if(media < 70){
-                return situacao = "REPROVADO";
+            List<String> linhas = new ArrayList<>();
+            linhas.add("Aluno: " + aluno.getNome() + " (" + aluno.getMatricula() + ")");
+            linhas.add(" ");
+
+            if (calculados.isEmpty()){
+                linhas.add("Nenhum componente com média calculável.");
+            } else {
+                linhas.add("Calculados:");
+                linhas.addAll(calculados);
             }
 
-            return situacao = "APROVADO";
-        }
-
-        public void todosAlunosCadastrados(List<Aluno> alunos){
-            this.exibaCursor();
-            List<String> itensMenu = new ArrayList<>();
-
-            for(Aluno a : alunos){
-                itensMenu.add(a.toString());
-                itensMenu.add(exibirSituacaoAluno(0));
+            if (!pendentes.isEmpty()){
+                linhas.add(" ");
+                linhas.add("Atenção: componentes sem notas completas:");
+                linhas.addAll(pendentes);
             }
-        Menu menuSituacao = new Menu("Alunos", itensMenu, "", this.console); 
-        menuSituacao.exiba();
+
+            exibaListagem("Resultado acadêmico", linhas);
         }
+
+        public void exibaSituacaoAluno(Aluno aluno, List<String> linhas){
+            List<String> itens = new ArrayList<>();
+            itens.add("Aluno: " + aluno.getNome() + " (" + aluno.getMatricula() + ")");
+            itens.add(" ");
+
+            if (linhas == null || linhas.isEmpty()){
+                itens.add("Nenhum componente matriculado.");
+            } else {
+                itens.addAll(linhas);
+            }
+
+            exibaListagem("Situação do aluno", itens);
+        }
+
+        public void exibaDetalhesAvaliacaoDisciplina(Aluno aluno, Disciplina disciplina, List<Integer> notas, int media, String situacao){
+            List<String> itens = new ArrayList<>();
+            itens.add("Aluno: " + aluno.getNome() + " (" + aluno.getMatricula() + ")");
+            itens.add("Disciplina: " + disciplina.getNome());
+            itens.add("Notas: " + (notas == null ? "[]" : notas.toString()));
+            itens.add("Média: " + media);
+            itens.add("Situação: " + situacao);
+            exibaListagem("Detalhes de avaliação", itens);
+        }
+
+        public void exibaSituacaoTodosAlunos(List<String> linhas){
+            List<String> itens = new ArrayList<>();
+            if (linhas == null || linhas.isEmpty()){
+                itens.add("Nenhum aluno possui componentes com notas completas para cálculo.");
+            } else {
+                itens.addAll(linhas);
+            }
+            exibaListagem("Situação de todos os alunos", itens);
+        }
+
+        private void exibaListagem(String titulo, List<String> linhas){
+            this.exibaCursor();
+            if (linhas == null) linhas = Collections.emptyList();
+
+            if (linhas.isEmpty()){
+                new Menu(titulo, List.of("(vazio)"), "", this.console).exiba();
+                return;
+            }
+
+            new Menu(titulo, linhas, "", this.console).exiba();
+        }
+
 
 
     public void limpaTela(){

@@ -92,16 +92,4 @@ public class Menu {
         // largura total = conteúdo + 4 (2 espaços internos + 2 bordas)
         return maxConteudo + 4;
     }
-    public static void main(String[] args) {
-        Console console = new Console();
-        Menu menu = new Menu(
-            "Menu", 
-            List.of("Cadastrar aluno", "Cadastrar professor", "Cadastrar disciplina", "Cadastrar estágio"
-            ), 
-            "Escolha uma opção: ", 
-            console);
-        menu.exiba();
-        int op = menu.leiaOpcao();
-        System.out.println("Opção: " + op);
-    }
 }

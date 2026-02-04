@@ -30,19 +30,32 @@ public class Estagio extends ComponenteAcademico{
         return media.get(aluno);
     }
 
+    public boolean podeCalcularMedia(Aluno aluno){
+        return media.get(aluno) != null;
+    }
+
+    public int calcularMediaAluno(Aluno aluno){
+        Integer mediaAluno = media.get(aluno);
+        if (mediaAluno == null){
+            throw new IllegalStateException("Avaliação não cadastrada para o estágio");
+        }
+        return mediaAluno;
+    }
+
+    public String calcularSituacaoPorMedia(int media){
+        return (media >= MEDIA_MINIMA_APROVACAO) ? "APROVADO" : "REPROVADO";
+    }
+
+    public String calcularSituacaoAluno(Aluno aluno){
+        return calcularSituacaoPorMedia(calcularMediaAluno(aluno));
+    }
+
     public void addAluno(Aluno aluno){
         alunos.add(aluno);
     }
 
     public void addMedia(Aluno aluno, int nota){
-        Integer mediaAluno = media.get(aluno);
-
-        if (mediaAluno == null) {
-            mediaAluno = nota;
-            media.put(aluno, mediaAluno);
-        }
-
-        // caso mediaAluno difrente de null atualizar
+        media.put(aluno, nota);
     }
 
     public Integer buscaNota(Aluno aluno){

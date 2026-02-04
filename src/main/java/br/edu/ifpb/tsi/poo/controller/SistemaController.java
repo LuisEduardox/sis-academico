@@ -1,8 +1,9 @@
 package br.edu.ifpb.tsi.poo.controller;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import br.edu.ifpb.tsi.poo.ui.SistemaUI;
-
-
 import br.edu.ifpb.tsi.poo.model.Aluno;
 import br.edu.ifpb.tsi.poo.model.Disciplina;
 import br.edu.ifpb.tsi.poo.model.Estagio;
@@ -51,7 +52,10 @@ public class SistemaController {
             case 7 -> executeCadastraNotaDisciplina();
             case 8 -> executeCadastraNotaEstagio();
             case 9 -> executeCalculaMediaComponentesAcademicos();
+            case 10 -> executeSituacaoAluno();
             case 11 -> executeExibiComponentesAcademicos();
+            case 12 -> executeDetalhesAvalicaoAluno();
+            case 13 -> executeSituacaoDeTodosAluno();
         }
     }
 
@@ -130,14 +134,147 @@ public class SistemaController {
         sistemaUI.pause();
     }
 
+
     private void executeCalculaMediaComponentesAcademicos(){
         String matricula = sistemaUI.leiaMatriculaAluno();
         alunoCorrente = alunoRepo.buscar(matricula);
+
+        if (alunoCorrente == null){
+            sistemaUI.imprimaMensagemErro("Aluno não encontrado para matrícula: " + matricula);
+            sistemaUI.pause();
+            return;
+        }
+
+        var resultadosCalculados = new ArrayList<String>();
+        var resultadosPendentes = new ArrayList<String>();
+
+        for (Disciplina d : alunoCorrente.getDisciplinas()){
+            if (d.podeCalcularMedia(alunoCorrente)){
+                int media = d.calcularMediaAluno(alunoCorrente);
+                String situacao = d.calcularSituacaoPorMedia(media);
+                resultadosCalculados.add("DISCIPLINA | " + d.getNome() + " | média=" + media + " | " + situacao);
+            } else {
+                resultadosPendentes.add("DISCIPLINA | " + d.getNome() + " | notas incompletas");
+            }
+        }
+
+        for (Estagio e : alunoCorrente.getEstagios()){
+            if (e.podeCalcularMedia(alunoCorrente)){
+                int media = e.calcularMediaAluno(alunoCorrente);
+                String situacao = e.calcularSituacaoPorMedia(media);
+                resultadosCalculados.add("ESTÁGIO | " + e.getNome() + " | média=" + media + " | " + situacao);
+            } else {
+                resultadosPendentes.add("ESTÁGIO | " + e.getNome() + " | avaliação não cadastrada");
+            }
+        }
+
+        sistemaUI.exibaResultadosCalculoComponentes(alunoCorrente, resultadosCalculados, resultadosPendentes);
+        sistemaUI.pause();
+    }
+
+    private void executeSituacaoAluno(){
+        String matricula = sistemaUI.leiaMatriculaAluno();
+        alunoCorrente = alunoRepo.buscar(matricula);
+
+        if (alunoCorrente == null){
+            sistemaUI.imprimaMensagemErro("Aluno não encontrado para matrícula: " + matricula);
+            sistemaUI.pause();
+            return;
+        }
+
+        var linhas = new ArrayList<String>();
+
+        for (Disciplina d : alunoCorrente.getDisciplinas()){
+            if (d.podeCalcularMedia(alunoCorrente)){
+                int media = d.calcularMediaAluno(alunoCorrente);
+                String situacao = d.calcularSituacaoPorMedia(media);
+                linhas.add("DISCIPLINA | " + d.getNome() + " | média=" + media + " | " + situacao);
+            } else {
+                linhas.add("DISCIPLINA | " + d.getNome() + " | situação=INCOMPLETO (sem todas as notas)");
+            }
+        }
+
+        for (Estagio e : alunoCorrente.getEstagios()){
+            if (e.podeCalcularMedia(alunoCorrente)){
+                int media = e.calcularMediaAluno(alunoCorrente);
+                String situacao = e.calcularSituacaoPorMedia(media);
+                linhas.add("ESTÁGIO | " + e.getNome() + " | média=" + media + " | " + situacao);
+            } else {
+                linhas.add("ESTÁGIO | " + e.getNome() + " | situação=INCOMPLETO (sem avaliação)");
+            }
+        }
+
+        sistemaUI.exibaSituacaoAluno(alunoCorrente, linhas);
+        sistemaUI.pause();
     }
 
     private void executeExibiComponentesAcademicos(){
         sistemaUI.exibaDisciplinas(disciplinaRepo.buscarTodos());
         sistemaUI.exibaEstagios(estagioRepo.buscarTodos());
+        sistemaUI.pause();
+    }
+
+    private void executeDetalhesAvalicaoAluno(){
+        String matricula = sistemaUI.leiaMatriculaAluno();
+        alunoCorrente = alunoRepo.buscar(matricula);
+
+        if (alunoCorrente == null){
+            sistemaUI.imprimaMensagemErro("Aluno não encontrado para matrícula: " + matricula);
+            sistemaUI.pause();
+            return;
+        }
+
+        if (alunoCorrente.getDisciplinas() == null || alunoCorrente.getDisciplinas().isEmpty()){
+            sistemaUI.imprimaMensagemErro("Aluno não está matriculado em nenhuma disciplina");
+            sistemaUI.pause();
+            return;
+        }
+
+        disciplinaCorrente = sistemaUI.exibaMenuSelecaoDisciplina(alunoCorrente.getDisciplinas());
+
+        if (!disciplinaCorrente.podeCalcularMedia(alunoCorrente)){
+            sistemaUI.imprimaMensagemErro("Não é possível exibir detalhes: notas incompletas para a disciplina selecionada");
+            sistemaUI.pause();
+            return;
+        }
+
+        List<Integer> notas = disciplinaCorrente.buscaNota(alunoCorrente);
+        int media = disciplinaCorrente.calcularMediaAluno(alunoCorrente);
+        String situacao = disciplinaCorrente.calcularSituacaoPorMedia(media);
+
+        sistemaUI.exibaDetalhesAvaliacaoDisciplina(alunoCorrente, disciplinaCorrente, notas, media, situacao);
+        sistemaUI.pause();
+    }
+
+     private void executeSituacaoDeTodosAluno(){
+        var alunos = alunoRepo.buscarTodos();
+        if (alunos == null || alunos.isEmpty()){
+            sistemaUI.imprimaMensagemErro("Não há alunos cadastrados");
+            sistemaUI.pause();
+            return;
+        }
+
+        var linhas = new ArrayList<String>();
+
+        for (Aluno a : alunos){
+            for (Disciplina d : a.getDisciplinas()){
+                if (d.podeCalcularMedia(a)){
+                    int media = d.calcularMediaAluno(a);
+                    String situacao = d.calcularSituacaoPorMedia(media);
+                    linhas.add(a.getNome() + " (" + a.getMatricula() + ") | DISCIPLINA " + d.getNome() + " | média=" + media + " | " + situacao);
+                }
+            }
+
+            for (Estagio e : a.getEstagios()){
+                if (e.podeCalcularMedia(a)){
+                    int media = e.calcularMediaAluno(a);
+                    String situacao = e.calcularSituacaoPorMedia(media);
+                    linhas.add(a.getNome() + " (" + a.getMatricula() + ") | ESTÁGIO " + e.getNome() + " | média=" + media + " | " + situacao);
+                }
+            }
+        }
+
+        sistemaUI.exibaSituacaoTodosAlunos(linhas);
         sistemaUI.pause();
     }
 
