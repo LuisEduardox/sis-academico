@@ -26,11 +26,47 @@ public class Aluno {
     }
 
     public void addDisciplina(Disciplina disciplina){
-        disciplinas.add(disciplina);
+        if (disciplina == null){
+            return;
+        }
+        if (!estaMatriculadoEmDisciplina(disciplina)){
+            disciplinas.add(disciplina);
+        }
     }
 
     public void addEstagio(Estagio estagio){
-        estagios.add(estagio);
+        if (estagio == null){
+            return;
+        }
+        if (!estaMatriculadoEmEstagio(estagio)){
+            estagios.add(estagio);
+        }
+    }
+
+    public boolean estaMatriculadoEmDisciplina(Disciplina disciplina){
+        if (disciplina == null || disciplinas == null){
+            return false;
+        }
+        for (Disciplina d : disciplinas){
+            if (d != null && d.getNome() != null && disciplina.getNome() != null
+                    && d.getNome().equalsIgnoreCase(disciplina.getNome())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean estaMatriculadoEmEstagio(Estagio estagio){
+        if (estagio == null || estagios == null){
+            return false;
+        }
+        for (Estagio e : estagios){
+            if (e != null && e.getNome() != null && estagio.getNome() != null
+                    && e.getNome().equalsIgnoreCase(estagio.getNome())){
+                return true;
+            }
+        }
+        return false;
     }
 
     public String toString(){

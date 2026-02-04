@@ -33,10 +33,8 @@ public class SistemaController {
     public void execute(){
         int opcaoMenu = SAIR;
         do{
-            sistemaUI.limpaTela();
             sistemaUI.exibaMenu();
             opcaoMenu = sistemaUI.leiaOpcaoMenuPrincipal();
-            sistemaUI.limpaTela();
             executeOperacao(opcaoMenu);
         } while(opcaoMenu != SAIR);
     }
@@ -60,78 +58,235 @@ public class SistemaController {
     }
 
     private void executeCadastraAluno(){
-        alunoCorrente = sistemaUI.cadastraAluno();
-        alunoRepo.salvar(alunoCorrente);
-        sistemaUI.limpaTela();
-        sistemaUI.imprimaMensagemSucesso("Aluno cadastrado com sucesso!");
-        sistemaUI.pause();
+        while (true){
+            alunoCorrente = sistemaUI.cadastraAluno();
+            if (alunoCorrente == null || alunoCorrente.getMatricula() == null || alunoCorrente.getMatricula().isBlank()){
+                sistemaUI.imprimaMensagemErro("Cadastro cancelado.");
+                sistemaUI.pause();
+                return;
+            }
+
+            if (!alunoRepo.salvar(alunoCorrente)){
+                sistemaUI.imprimaMensagemErro("Já existe aluno com essa matrícula. Tente novamente.");
+                sistemaUI.pause();
+                continue;
+            }
+
+            sistemaUI.imprimaMensagemSucesso("Aluno cadastrado com sucesso!");
+            sistemaUI.pause();
+            return;
+        }
     }
 
     private void executeCadastraProfessor(){
-        professorCorrente = sistemaUI.cadastraProfessor();
-        professorRepo.salvar(professorCorrente);
-        sistemaUI.limpaTela();
-        sistemaUI.imprimaMensagemSucesso("Professor cadastrado com sucesso!");
-        sistemaUI.pause();
+        while (true){
+            professorCorrente = sistemaUI.cadastraProfessor();
+            if (professorCorrente == null || professorCorrente.getMatricula() == null || professorCorrente.getMatricula().isBlank()){
+                sistemaUI.imprimaMensagemErro("Cadastro cancelado.");
+                sistemaUI.pause();
+                return;
+            }
+
+            if (!professorRepo.salvar(professorCorrente)){
+                sistemaUI.imprimaMensagemErro("Já existe professor com essa matrícula. Tente novamente.");
+                sistemaUI.pause();
+                continue;
+            }
+
+            sistemaUI.imprimaMensagemSucesso("Professor cadastrado com sucesso!");
+            sistemaUI.pause();
+            return;
+        }
     }
 
     private void executeCadastraDisciplina(){
-        disciplinaCorrente = sistemaUI.cadastraDisciplina();
-        disciplinaRepo.salvar(disciplinaCorrente);
-        sistemaUI.limpaTela();
-        sistemaUI.imprimaMensagemSucesso("Disciplina cadastrado com sucesso!");
-        sistemaUI.pause();
+        while (true){
+            disciplinaCorrente = sistemaUI.cadastraDisciplina();
+            if (disciplinaCorrente == null || disciplinaCorrente.getNome() == null || disciplinaCorrente.getNome().isBlank()){
+                sistemaUI.imprimaMensagemErro("Cadastro cancelado.");
+                sistemaUI.pause();
+                return;
+            }
+
+            if (!disciplinaRepo.salvar(disciplinaCorrente)){
+                sistemaUI.imprimaMensagemErro("Já existe disciplina com esse nome. Tente novamente.");
+                sistemaUI.pause();
+                continue;
+            }
+
+            sistemaUI.imprimaMensagemSucesso("Disciplina cadastrada com sucesso!");
+            sistemaUI.pause();
+            return;
+        }
     }
 
     private void executeCadastraEstagio(){
-        estagioCorrente = sistemaUI.cadastraEstagio();
-        estagioRepo.salvar(estagioCorrente);
-        sistemaUI.limpaTela();
-        sistemaUI.imprimaMensagemSucesso("Estagio cadastrado com sucesso!");
-        sistemaUI.pause();
+        while (true){
+            estagioCorrente = sistemaUI.cadastraEstagio();
+            if (estagioCorrente == null || estagioCorrente.getNome() == null || estagioCorrente.getNome().isBlank()){
+                sistemaUI.imprimaMensagemErro("Cadastro cancelado.");
+                sistemaUI.pause();
+                return;
+            }
+
+            if (!estagioRepo.salvar(estagioCorrente)){
+                sistemaUI.imprimaMensagemErro("Já existe estágio com esse nome. Tente novamente.");
+                sistemaUI.pause();
+                continue;
+            }
+
+            sistemaUI.imprimaMensagemSucesso("Estágio cadastrado com sucesso!");
+            sistemaUI.pause();
+            return;
+        }
     }
 
     private void executeMatriculaAlunoDisciplina(){
-        executeMudarAlunoCorrente();
-        disciplinaCorrente = sistemaUI.exibaMenuSelecaoDisciplina(disciplinaRepo.buscarTodos());
-        disciplinaCorrente.addAluno(alunoCorrente);
-        alunoCorrente.addDisciplina(disciplinaCorrente);
-        sistemaUI.imprimaMensagemSucesso("Aluno(a) cadastrado com sucesso!");
-        sistemaUI.limpaTela();
-        sistemaUI.pause();
+        if (alunoRepo.buscarTodos().isEmpty()){
+            sistemaUI.imprimaMensagemErro("Não há alunos cadastrados.");
+            sistemaUI.pause();
+            return;
+        }
+        if (disciplinaRepo.buscarTodos().isEmpty()){
+            sistemaUI.imprimaMensagemErro("Não há disciplinas cadastradas.");
+            sistemaUI.pause();
+            return;
+        }
+
+        while (true){
+            alunoCorrente = sistemaUI.exibaMenuSelecaoAluno(alunoRepo.buscarTodos());
+            if (alunoCorrente == null){
+                return;
+            }
+
+            disciplinaCorrente = sistemaUI.exibaMenuSelecaoDisciplina(disciplinaRepo.buscarTodos());
+            if (disciplinaCorrente == null){
+                return;
+            }
+
+            if (alunoCorrente.estaMatriculadoEmDisciplina(disciplinaCorrente)){
+                sistemaUI.imprimaMensagemErro("Aluno já está matriculado nessa disciplina.");
+                sistemaUI.pause();
+                continue;
+            }
+
+            disciplinaCorrente.addAluno(alunoCorrente);
+            alunoCorrente.addDisciplina(disciplinaCorrente);
+            sistemaUI.imprimaMensagemSucesso("Matrícula realizada com sucesso!");
+            sistemaUI.pause();
+            return;
+        }
     }   
     
     private void executeMatriculaAlunoEstagio(){
-        executeMudarAlunoCorrente();
-        estagioCorrente = sistemaUI.exibaMenuSelecaoEstagio(estagioRepo.buscarTodos());
-        estagioCorrente.addAluno(alunoCorrente);
-        alunoCorrente.addEstagio(estagioCorrente);
-        sistemaUI.imprimaMensagemSucesso("Aluno(a) cadastrado com sucesso!");
-        sistemaUI.limpaTela();
-        sistemaUI.pause();
+        if (alunoRepo.buscarTodos().isEmpty()){
+            sistemaUI.imprimaMensagemErro("Não há alunos cadastrados.");
+            sistemaUI.pause();
+            return;
+        }
+        if (estagioRepo.buscarTodos().isEmpty()){
+            sistemaUI.imprimaMensagemErro("Não há estágios cadastrados.");
+            sistemaUI.pause();
+            return;
+        }
+
+        while (true){
+            alunoCorrente = sistemaUI.exibaMenuSelecaoAluno(alunoRepo.buscarTodos());
+            if (alunoCorrente == null){
+                return;
+            }
+
+            estagioCorrente = sistemaUI.exibaMenuSelecaoEstagio(estagioRepo.buscarTodos());
+            if (estagioCorrente == null){
+                return;
+            }
+
+            if (alunoCorrente.estaMatriculadoEmEstagio(estagioCorrente)){
+                sistemaUI.imprimaMensagemErro("Aluno já está matriculado nesse estágio.");
+                sistemaUI.pause();
+                continue;
+            }
+
+            estagioCorrente.addAluno(alunoCorrente);
+            alunoCorrente.addEstagio(estagioCorrente);
+            sistemaUI.imprimaMensagemSucesso("Matrícula realizada com sucesso!");
+            sistemaUI.pause();
+            return;
+        }
     }   
 
 
      private void executeCadastraNotaDisciplina(){
-        String matricula = sistemaUI.leiaMatriculaAluno();
-        alunoCorrente = alunoRepo.buscar(matricula);
-        disciplinaCorrente = sistemaUI.exibaMenuSelecaoDisciplina(alunoCorrente.getDisciplinas());
-        int nota = sistemaUI.leiaNota();
-        disciplinaCorrente.addNota(alunoCorrente, nota);
-        sistemaUI.imprimaMensagemSucesso("Nota cadastrado com sucesso!");
-        sistemaUI.limpaTela();
-        sistemaUI.pause();
+        while (true){
+            String matricula = sistemaUI.leiaMatriculaAluno();
+            if (matricula == null || matricula.isBlank()){
+                return;
+            }
+
+            alunoCorrente = alunoRepo.buscar(matricula);
+            if (alunoCorrente == null){
+                sistemaUI.imprimaMensagemErro("Aluno não encontrado. Tente novamente.");
+                sistemaUI.pause();
+                continue;
+            }
+
+            if (alunoCorrente.getDisciplinas() == null || alunoCorrente.getDisciplinas().isEmpty()){
+                sistemaUI.imprimaMensagemErro("Aluno não está matriculado em nenhuma disciplina.");
+                sistemaUI.pause();
+                return;
+            }
+
+            disciplinaCorrente = sistemaUI.exibaMenuSelecaoDisciplina(alunoCorrente.getDisciplinas());
+            if (disciplinaCorrente == null){
+                return;
+            }
+
+            List<Integer> notasAtuais = disciplinaCorrente.buscaNota(alunoCorrente);
+            if (notasAtuais != null && notasAtuais.size() >= disciplinaCorrente.getQuantidadeAvaliacoesParaCalculo()){
+                sistemaUI.imprimaMensagemErro("Todas as notas dessa disciplina já foram cadastradas.");
+                sistemaUI.pause();
+                return;
+            }
+
+            int nota = sistemaUI.leiaNota();
+            disciplinaCorrente.addNota(alunoCorrente, nota);
+            sistemaUI.imprimaMensagemSucesso("Nota cadastrada com sucesso!");
+            sistemaUI.pause();
+            return;
+        }
     }
 
     private void executeCadastraNotaEstagio(){
-        String matricula = sistemaUI.leiaMatriculaAluno();
-        alunoCorrente = alunoRepo.buscar(matricula);
-        estagioCorrente = sistemaUI.exibaMenuSelecaoEstagio(alunoCorrente.getEstagios());
-        int nota = sistemaUI.leiaNota();
-        estagioCorrente.addMedia(alunoCorrente, nota);
-        sistemaUI.imprimaMensagemSucesso("Nota cadastrado com sucesso!");
-        sistemaUI.limpaTela();
-        sistemaUI.pause();
+        while (true){
+            String matricula = sistemaUI.leiaMatriculaAluno();
+            if (matricula == null || matricula.isBlank()){
+                return;
+            }
+
+            alunoCorrente = alunoRepo.buscar(matricula);
+            if (alunoCorrente == null){
+                sistemaUI.imprimaMensagemErro("Aluno não encontrado. Tente novamente.");
+                sistemaUI.pause();
+                continue;
+            }
+
+            if (alunoCorrente.getEstagios() == null || alunoCorrente.getEstagios().isEmpty()){
+                sistemaUI.imprimaMensagemErro("Aluno não está matriculado em nenhum estágio.");
+                sistemaUI.pause();
+                return;
+            }
+
+            estagioCorrente = sistemaUI.exibaMenuSelecaoEstagio(alunoCorrente.getEstagios());
+            if (estagioCorrente == null){
+                return;
+            }
+
+            int nota = sistemaUI.leiaNota();
+            estagioCorrente.addMedia(alunoCorrente, nota);
+            sistemaUI.imprimaMensagemSucesso("Avaliação cadastrada com sucesso!");
+            sistemaUI.pause();
+            return;
+        }
     }
 
 
@@ -188,9 +343,9 @@ public class SistemaController {
             if (d.podeCalcularMedia(alunoCorrente)){
                 int media = d.calcularMediaAluno(alunoCorrente);
                 String situacao = d.calcularSituacaoPorMedia(media);
-                linhas.add("DISCIPLINA | " + d.getNome() + " | média=" + media + " | " + situacao);
+                linhas.add("DISCIPLINA | " + d.getNome() + " | " + situacao);
             } else {
-                linhas.add("DISCIPLINA | " + d.getNome() + " | situação=INCOMPLETO (sem todas as notas)");
+                linhas.add("DISCIPLINA | " + d.getNome() + " | INCOMPLETO (sem todas as notas)");
             }
         }
 
@@ -198,9 +353,9 @@ public class SistemaController {
             if (e.podeCalcularMedia(alunoCorrente)){
                 int media = e.calcularMediaAluno(alunoCorrente);
                 String situacao = e.calcularSituacaoPorMedia(media);
-                linhas.add("ESTÁGIO | " + e.getNome() + " | média=" + media + " | " + situacao);
+                linhas.add("ESTÁGIO | " + e.getNome() + " | " + situacao);
             } else {
-                linhas.add("ESTÁGIO | " + e.getNome() + " | situação=INCOMPLETO (sem avaliação)");
+                linhas.add("ESTÁGIO | " + e.getNome() + " | INCOMPLETO (sem avaliação)");
             }
         }
 
@@ -277,10 +432,4 @@ public class SistemaController {
         sistemaUI.exibaSituacaoTodosAlunos(linhas);
         sistemaUI.pause();
     }
-
-    private void executeMudarAlunoCorrente() {
-        alunoCorrente = sistemaUI.exibaMenuSelecaoAluno(alunoRepo.buscarTodos());
-        sistemaUI.limpaTela();
-    }
-
 }

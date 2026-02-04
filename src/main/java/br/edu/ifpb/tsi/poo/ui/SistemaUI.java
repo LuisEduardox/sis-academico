@@ -52,9 +52,18 @@ public class SistemaUI {
     }
 
     public int leiaNota(){
-        console.print("Digite a nota: ");
-        int nota = console.nextInt();
-        return nota;
+        while (true) {
+            console.print("Digite a nota (0 a 100): ");
+            try {
+                int nota = console.nextInt();
+                if (nota >= 0 && nota <= 100) {
+                    return nota;
+                }
+            } catch (NumberFormatException ignored) {
+                // continua
+            }
+            console.println(Cores.VERMELHO + "Nota inválida. Tente novamente." + Cores.RESET);
+        }
     }
     
     public Aluno cadastraAluno(){
@@ -88,8 +97,18 @@ public class SistemaUI {
         
         console.print("Carga Horario: ");
         int cargaHoraria = console.nextInt();
+
+        int quantidadeAvaliacoes;
+        while (true){
+            console.print("Quantidade de avaliações (mínimo 2): ");
+            quantidadeAvaliacoes = console.nextInt();
+            if (quantidadeAvaliacoes >= Disciplina.QUANTIDADE_MINIMA_AVALIACOES){
+                break;
+            }
+            console.println("Quantidade inválida. Informe um número >= 2.");
+        }
         
-        Disciplina disciplina = new Disciplina(nome, cargaHoraria);
+        Disciplina disciplina = new Disciplina(nome, cargaHoraria, quantidadeAvaliacoes);
         return disciplina;
     }
 
@@ -107,35 +126,62 @@ public class SistemaUI {
 
     public Aluno exibaMenuSelecaoAluno(List<Aluno> alunos){
         this.exibaCursor();
+        if (alunos == null || alunos.isEmpty()){
+            imprimaMensagemErro("Não há alunos disponíveis para seleção.");
+            pause();
+            return null;
+        }
         List<String> itensMenu = new ArrayList<>();
         for (Aluno a : alunos){
             itensMenu.add(a.toString());
         }
+        itensMenu.add("Voltar");
         Menu menuAlunos = new Menu("Alunos", itensMenu, "Selecionar alunos: ", this.console);
         int opcao =  menuAlunos.exiba().leiaOpcao();
+        if (opcao == itensMenu.size()){
+            return null;
+        }
         return alunos.get(opcao - 1);
     }
 
     
     public Disciplina exibaMenuSelecaoDisciplina(List<Disciplina> disciplinas) {
         this.exibaCursor();
+        if (disciplinas == null || disciplinas.isEmpty()){
+            imprimaMensagemErro("Não há disciplinas disponíveis para seleção.");
+            pause();
+            return null;
+        }
         List<String> itensMenu = new ArrayList<>();
         for (Disciplina d : disciplinas) { 
             itensMenu.add(d.toString());
         }
+        itensMenu.add("Voltar");
         Menu menuDisciplinas = new Menu("Disciplina", itensMenu, "Selecionar disciplina: ", this.console);
         int opcao = menuDisciplinas.exiba().leiaOpcao();
+        if (opcao == itensMenu.size()){
+            return null;
+        }
         return disciplinas.get(opcao - 1);
     }
 
      public Estagio exibaMenuSelecaoEstagio(List<Estagio> estagio) {
         this.exibaCursor();
+        if (estagio == null || estagio.isEmpty()){
+            imprimaMensagemErro("Não há estágios disponíveis para seleção.");
+            pause();
+            return null;
+        }
         List<String> itensMenu = new ArrayList<>();
         for (Estagio e : estagio) {
             itensMenu.add(e.toString());
         }
+        itensMenu.add("Voltar");
         Menu menuEstagios = new Menu("Estagio", itensMenu, "Selecionar estagio: ", this.console);
         int opcao = menuEstagios.exiba().leiaOpcao();
+        if (opcao == itensMenu.size()){
+            return null;
+        }
         return estagio.get(opcao - 1);
     }
 
@@ -146,7 +192,7 @@ public class SistemaUI {
             itensMenu.add(d.toString());
         }
         Menu menuDisciplinas = new Menu("Disciplinas", itensMenu, "", this.console); 
-        menuDisciplinas.exiba();
+        menuDisciplinas.exiba(false);
         }
 
         public void exibaEstagios(List<Estagio> estagios) {
@@ -156,7 +202,7 @@ public class SistemaUI {
             itensMenu.add(e.toString());
         }
         Menu menuEstagios = new Menu("Estagios", itensMenu, "", this.console); 
-        menuEstagios.exiba();
+        menuEstagios.exiba(false);
         }
 
         public void exibaResultadosCalculoComponentes(Aluno aluno, List<String> calculados, List<String> pendentes){
@@ -222,11 +268,11 @@ public class SistemaUI {
             if (linhas == null) linhas = Collections.emptyList();
 
             if (linhas.isEmpty()){
-                new Menu(titulo, List.of("(vazio)"), "", this.console).exiba();
+                new Menu(titulo, List.of("(vazio)"), "", this.console).exiba(false);
                 return;
             }
 
-            new Menu(titulo, linhas, "", this.console).exiba();
+            new Menu(titulo, linhas, "", this.console).exiba(false);
         }
 
 

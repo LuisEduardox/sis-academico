@@ -49,6 +49,20 @@ public class Console {
         System.out.println(BL + HL.repeat(largura) + BR);
     }
 
+    private void printMessageBox(String cor, String mensagem) {
+        final String TL = "╔";
+        final String TR = "╗";
+        final String BL = "╚";
+        final String BR = "╝";
+        final String HL = "═";
+        final String VL = "║";
+
+        int larguraInterna = mensagem.length() + 2; // 1 espaço de cada lado
+        System.out.println(TL + HL.repeat(larguraInterna) + TR);
+        System.out.println(VL + " " + cor + mensagem + Cores.RESET + " " + VL);
+        System.out.println(BL + HL.repeat(larguraInterna) + BR);
+    }
+
     public void clrscr() {
         System.out.print("\u001B[2J\u001B[H");
         System.out.flush();
@@ -88,15 +102,11 @@ public class Console {
     }
 
     public void printErrorMessage(String mensagem) {
-        this.printBorder(1, mensagem.length() + 2);
-        this.gotoXY(2, 3);
-        this.print(Cores.VERMELHO, mensagem);
+        this.printMessageBox(Cores.VERMELHO, mensagem);
     }
 
     public void printSuccessMessage(String mensagem) {
-        this.printBorder(1, mensagem.length() + 2);
-        this.gotoXY(2, 3);
-        this.print(Cores.VERDE, mensagem);
+        this.printMessageBox(Cores.VERDE, mensagem);
     }
 
     public void showCursor() {

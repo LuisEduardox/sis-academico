@@ -14,6 +14,10 @@ public class Menu {
     private String prompt;
     private Console console;
     public Menu exiba() {
+        return exiba(true);
+    }
+
+    public Menu exiba(boolean numerar) {
         
         // Caracteres da moldura
         final char TL = '╔'; // Top Left
@@ -25,7 +29,7 @@ public class Menu {
         // Descobrir largura máxima necessária (título ou item)
         int maxConteudo = titulo.length();
         for (int i = 0; i < itens.size(); i++) {
-            int tamanhoItem = (i + 1 + ") " + itens.get(i)).length();
+            int tamanhoItem = numerar ? (i + 1 + ") " + itens.get(i)).length() : itens.get(i).length();
             if (tamanhoItem > maxConteudo) {
                 maxConteudo = tamanhoItem;
             }
@@ -56,11 +60,12 @@ public class Menu {
         // Itens numerados
         for (int i = 0; i < itens.size(); i++) {
             String itemColorido = Cores.AZUL + itens.get(i) + Cores.RESET;
-            String linha = (i + 1) + ") " + itemColorido;
+            String prefixo = numerar ? ((i + 1) + ") ") : "";
+            String linha = prefixo + itemColorido;
             System.out.print(VL);
             System.out.print(linha);
             // Completar espaços até o fim
-            int comprimentoVisivel = (i + 1 + ") ").length() + itens.get(i).length();
+            int comprimentoVisivel = prefixo.length() + itens.get(i).length();
             for (int j = comprimentoVisivel; j < largura; j++) {
                 System.out.print(" ");
             }
@@ -74,8 +79,20 @@ public class Menu {
         return this;
     }
     public int leiaOpcao() {
-        System.out.print(Cores.AZUL + this.prompt + Cores.RESET);
-        return Integer.parseInt(console.nextLine());
+        while (true) {
+            System.out.print(Cores.AZUL + this.prompt + Cores.RESET);
+            String entrada = console.nextLine();
+            try {
+                int opcao = Integer.parseInt(entrada.trim());
+                if (opcao >= 1 && opcao <= itens.size()) {
+                    return opcao;
+                }
+            } catch (NumberFormatException ignored) {
+                // continua no loop
+            }
+
+            System.out.println(Cores.VERMELHO + "Opção inválida. Digite um número entre 1 e " + itens.size() + "." + Cores.RESET);
+        }
     }
     public int getAltura() {
         return 4 + itens.size();

@@ -51,7 +51,12 @@ public class Estagio extends ComponenteAcademico{
     }
 
     public void addAluno(Aluno aluno){
-        alunos.add(aluno);
+        if (aluno == null){
+            return;
+        }
+        if (!alunos.contains(aluno)){
+            alunos.add(aluno);
+        }
     }
 
     public void addMedia(Aluno aluno, int nota){

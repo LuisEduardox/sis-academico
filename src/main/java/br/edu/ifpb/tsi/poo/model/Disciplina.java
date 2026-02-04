@@ -15,16 +15,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Disciplina extends ComponenteAcademico{
-    public static final int QUANTIDADE_NOTAS_PARA_MEDIA = 3;
+    public static final int QUANTIDADE_MINIMA_AVALIACOES = 2;
     private List<Aluno> alunos;
     private List<Professor> professores;
     private Map <Aluno, List<Integer>> notas;
+    private int quantidadeAvaliacoes;
 
-    public Disciplina(String nome, int cargaHoraria){
+    public Disciplina(String nome, int cargaHoraria, int quantidadeAvaliacoes){
         super(nome, cargaHoraria);
         this.alunos = new ArrayList<>();
         this.professores = new ArrayList<>();
         this.notas = new HashMap<>();
+        this.quantidadeAvaliacoes = Math.max(quantidadeAvaliacoes, QUANTIDADE_MINIMA_AVALIACOES);
+    }
+
+    public int getQuantidadeAvaliacoesParaCalculo(){
+        return Math.max(this.quantidadeAvaliacoes, QUANTIDADE_MINIMA_AVALIACOES);
     }
 
     public Integer calcularMedia(List<Integer> notas){
@@ -41,7 +47,7 @@ public class Disciplina extends ComponenteAcademico{
 
     public boolean podeCalcularMedia(Aluno aluno){
         List<Integer> notasAluno = notas.get(aluno);
-        return notasAluno != null && notasAluno.size() >= QUANTIDADE_NOTAS_PARA_MEDIA;
+        return notasAluno != null && notasAluno.size() >= getQuantidadeAvaliacoesParaCalculo();
     }
 
     public int calcularMediaAluno(Aluno aluno){
@@ -60,7 +66,12 @@ public class Disciplina extends ComponenteAcademico{
     }
 
     public void addAluno(Aluno aluno){
-        alunos.add(aluno);
+        if (aluno == null){
+            return;
+        }
+        if (!alunos.contains(aluno)){
+            alunos.add(aluno);
+        }
     }
 
     public void addProfessor(Professor professor){
